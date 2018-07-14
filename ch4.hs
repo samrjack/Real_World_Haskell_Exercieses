@@ -28,12 +28,33 @@ safeInit xs = Just (init xs)
 --    returns False:
 --    -- file: ch04/ch04.exercises.hs
 --    splitWith :: (a -> Bool) -> [a] -> [[a]]
+splitWith :: (a -> Bool) -> [a] -> [[a]]
+splitWith f xs = split xs
+    where split :: [a] -> [[a]]
+          split [] = []
+          split tl = let (front, back) = span f tl
+                     in front : split (tail back)
 
 
 -- 3. Using the command framework from the earlier section “A Simple Command-Line
 --    Framework” on page 71, write a program that prints the first word of each line of
 --    its input.
+import System.Environment (getArgs)
 
+main = do
+    args <- getArgs
+    case args of
+        [input, output] -> firstWords input output
+        _ -> putStrLn "error: exactly two arguemtns needed"
+    where firstWords input output = do
+        input <- readFile input
+        modified <- 
+          func = map head . map words . lines 
+        
 
 -- 4. Write a program that transposes the text in a file. For instance, it should convert
 --    "hello\nworld\n" to "hw\neo\nlr\nll\nod\n".
+transpose :: String -> String
+transpose = unlines . tran .lines
+    where tran :: [[a]] -> [[a]]
+          tran xs = map head xs : tran (map tail xs)
